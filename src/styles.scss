@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'variables' as *;
 
 html {
   @include mat.theme((
@@ -29,4 +30,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .p-inputnumber-input {
   width: 2.5rem !important;
+}
+
+.p-card-body {
+  height: 100%;
+  padding: $spacing-unit;
+}
+
+.p-card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }

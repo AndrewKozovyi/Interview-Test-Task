@@ -20,7 +20,7 @@
   .list-card-main {
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
+    word-break: break-all;
 
     span {
       font-weight: 600;

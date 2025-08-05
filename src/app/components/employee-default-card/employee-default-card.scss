@@ -4,6 +4,8 @@
   border-radius: 8px;
   box-shadow: $card-shadow;
   transition: box-shadow 0.2s ease-in-out;
+  word-break: break-all;
+  height: 100%;
 
   &:hover {
     box-shadow: $card-shadow-hover;
@@ -15,10 +17,6 @@
     padding: $spacing-unit;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-  }
-
-  .p-card-body {
-    padding: $spacing-unit;
   }
 
   p {
@@ -39,8 +37,8 @@
   .card-actions {
     display: flex;
     justify-content: flex-end;
-    bottom: 0;
     gap: 0.5rem;
+    margin-top: auto;
     padding-top: $spacing-unit;
     border-top: 1px solid $border-light;
   }

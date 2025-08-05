@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ButtonDirective} from 'primeng/button';
 import {Card} from 'primeng/card';
-import {DatePipe, NgForOf} from '@angular/common';
+import {DatePipe} from '@angular/common';
+import {Employee} from '../../models/employee';
 
 @Component({
   selector: 'app-employee-default-card',
   imports: [
     ButtonDirective,
     Card,
-    NgForOf,
     DatePipe
   ],
   templateUrl: './employee-default-card.html',
@@ -16,7 +16,7 @@ import {DatePipe, NgForOf} from '@angular/common';
   styleUrl: './employee-default-card.scss'
 })
 export class EmployeeDefaultCard {
-  @Input() employee!: any;
+  @Input() employee!: Employee;
   @Output() delete = new EventEmitter<number>();
   @Output() edit = new EventEmitter<number>();
 
