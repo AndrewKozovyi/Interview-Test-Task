@@ -19,31 +19,32 @@
     </div>
   </div>
 
-  <div class="employee-cards" *ngIf="displayEmployees$ | async as employees" [ngClass]="{'list-view': viewMode === 'list'}">
-    <ng-container *ngIf="employees.length > 0; else noEmployees">
-      <ng-container *ngFor="let employee of employees">
-        <ng-container [ngSwitch]="viewMode">
-          <app-employee-default-card
-            *ngSwitchCase="'card'"
-            [employee]="employee"
-            (delete)="deleteEmployee($event)"
-            (edit)="openEmployeeForm(employee)">
-          </app-employee-default-card>
-
-          <app-employee-list-card
-            *ngSwitchCase="'list'"
-            [employee]="employee"
-            (delete)="deleteEmployee($event)"
-            (edit)="openEmployeeForm(employee)">
-          </app-employee-list-card>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-
-    <ng-template #noEmployees>
-      <div class="no-employees-message">
-        <p>No employees found.</p>
-      </div>
-    </ng-template>
-  </div>
+  @if (displayEmployees$ | async; as employees) {
+    <div class="employee-cards" [ngClass]="{'list-view': viewMode === 'list'}">
+      @if (employees.length > 0) {
+        @for (employee of employees; track employee.id) {
+          @switch (viewMode) {
+            @case ('card') {
+              <app-employee-default-card
+                [employee]="employee"
+                (delete)="deleteEmployee($event)"
+                (edit)="openEmployeeForm(employee)">
+              </app-employee-default-card>
+            }
+            @case ('list') {
+              <app-employee-list-card
+                [employee]="employee"
+                (delete)="deleteEmployee($event)"
+                (edit)="openEmployeeForm(employee)">
+              </app-employee-list-card>
+            }
+          }
+        }
+      } @else {
+        <div class="no-employees-message">
+          <p>No employees found.</p>
+        </div>
+      }
+    </div>
+  }
 </div>

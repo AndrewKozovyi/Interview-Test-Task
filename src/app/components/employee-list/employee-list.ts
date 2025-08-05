@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, startWith, map } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {AsyncPipe, NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
+import {AsyncPipe, NgClass} from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EmployeeService } from '../../services/employee';
 import { ButtonModule } from 'primeng/button';
@@ -18,11 +18,7 @@ import { Employee } from '../../models/employee';
     ButtonModule,
     InputTextModule,
     AsyncPipe,
-    NgIf,
-    NgForOf,
     MatDialogModule,
-    NgSwitch,
-    NgSwitchCase,
     EmployeeDefaultCard,
     NgClass,
     EmployeeListCard
