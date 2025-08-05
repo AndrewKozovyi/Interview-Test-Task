@@ -49,7 +49,7 @@ export class EmployeeForm implements OnInit {
   constructor(
     private employeeService: EmployeeService,
     public dialogRef: MatDialogRef<EmployeeForm>,
-    @Inject(MAT_DIALOG_DATA) private data: Employee
+    @Inject(MAT_DIALOG_DATA) private data: Employee | null
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +68,7 @@ export class EmployeeForm implements OnInit {
     });
 
     this.skills.clear();
-    employee.skills.forEach((skill: Skill) => {
+    employee.skills.forEach((skill) => {
       const skillGroup = this.newSkill();
       skillGroup.patchValue(skill);
       this.skills.push(skillGroup);
@@ -76,29 +76,29 @@ export class EmployeeForm implements OnInit {
   }
 
   get fullName() {
-    return this.employeeForm.get('fullName') as FormControl;
+    return this.employeeForm.controls.fullName;
   }
 
   get email() {
-    return this.employeeForm.get('email') as FormControl;
+    return this.employeeForm.controls.email;
   }
 
   get position() {
-    return this.employeeForm.get('position') as FormControl;
+    return this.employeeForm.controls.position;
   }
 
   get startDate() {
-    return this.employeeForm.get('startDate') as FormControl;
+    return this.employeeForm.controls.startDate;
   }
 
   get skills() {
-    return this.employeeForm.get('skills') as FormArray;
+    return this.employeeForm.controls.skills;
   }
 
-  newSkill(): FormGroup {
+  newSkill(): FormGroup<SkillFormGroup> {
     return new FormGroup({
-      skill: new FormControl(null, Validators.required),
-      yearExperience: new FormControl(0, [Validators.required, Validators.min(0)])
+      skill: new FormControl<string | null>(null, Validators.required),
+      yearExperience: new FormControl<number>(0, [Validators.required, Validators.min(0)])
     });
   }
 
@@ -113,7 +113,7 @@ export class EmployeeForm implements OnInit {
   getAvailableSkills(currentSkillControlValue: string | null): string[] {
     const selectedSkills = this.skills.controls
       .map(control => control.get('skill')?.value)
-      .filter(skill => skill !== null);
+      .filter((skill): skill is string => skill !== null);
 
     if (currentSkillControlValue) {
       selectedSkills.splice(selectedSkills.indexOf(currentSkillControlValue), 1);
@@ -123,16 +123,7 @@ export class EmployeeForm implements OnInit {
 
   onSubmit() {
     if (this.employeeForm.valid) {
-      const formValue = this.employeeForm.getRawValue();
-
-      const employeeData: Employee = {
-        id: formValue.id as number,
-        fullName: formValue.fullName as string,
-        email: formValue.email as string,
-        position: formValue.position as string,
-        startDate: formValue.startDate as Date,
-        skills: formValue.skills as Skill[]
-      };
+      const employeeData = this.mapFormToEmployee(this.employeeForm.getRawValue());
 
       if (employeeData.id) {
         this.employeeService.updateEmployee(employeeData);
@@ -146,5 +137,16 @@ export class EmployeeForm implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  private mapFormToEmployee(formValue: typeof this.employeeForm.value): Employee {
+    return {
+      id: formValue.id as number,
+      fullName: formValue.fullName as string,
+      email: formValue.email as string,
+      position: formValue.position as string,
+      startDate: formValue.startDate as Date,
+      skills: formValue.skills as Skill[]
+    };
   }
 }
