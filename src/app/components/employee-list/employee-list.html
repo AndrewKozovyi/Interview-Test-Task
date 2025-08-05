@@ -3,12 +3,14 @@
     <div class="search-bar">
       <input pInputText type="text" [formControl]="searchControl" placeholder="Search by name or email" />
 
-      <div class="sort-buttons">
+      <div class="sort">
         <span>Sort by:</span>
-        <button pButton label="Name A-Z" (click)="setSortOrder('name-asc')"></button>
-        <button pButton label="Name Z-A" (click)="setSortOrder('name-desc')"></button>
-        <button pButton label="Start Date" (click)="setSortOrder('startDate')"></button>
-        <button pButton label="Skills" (click)="setSortOrder('numSkills')"></button>
+        <div class="sort-buttons">
+          <button pButton label="Name A-Z" (click)="setSortOrder('name-asc')"></button>
+          <button pButton label="Name Z-A" (click)="setSortOrder('name-desc')"></button>
+          <button pButton label="Start Date" (click)="setSortOrder('startDate')"></button>
+          <button pButton label="Skills" (click)="setSortOrder('numSkills')"></button>
+        </div>
       </div>
     </div>
 
