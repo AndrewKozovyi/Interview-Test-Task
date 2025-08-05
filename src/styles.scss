@@ -1,1 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+$error-color: #cf3e3e;
+
+.errors {
+  color: $error-color;
+  box-sizing: border-box;
+  width: 100%;
+}

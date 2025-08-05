@@ -1,0 +1,82 @@
+<form [formGroup]="employeeForm" class="employee-form">
+  <h1>ADD EMPLOYEE</h1>
+  <div class="form-group">
+    <label for="full-name">Full Name</label>
+    <input pInputText id="full-name" placeholder="Full name" type="text" formControlName="fullName"
+           [class.ng-invalid]="fullName.invalid && fullName.dirty" />
+    <div class="errors" *ngIf="fullName.invalid && fullName.dirty">
+      <div *ngIf="fullName.hasError('required')">Full name can't be empty</div>
+      <div *ngIf="fullName.hasError('minlength')">Full name must contain 3 characters</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input pInputText id="email" placeholder="Email" type="text" formControlName="email"
+           [class.ng-invalid]="email.invalid && email.dirty" />
+    <div class="errors" *ngIf="email.invalid && email.dirty">
+      <div *ngIf="email.hasError('required')">Email can't be empty</div>
+      <div *ngIf="email.hasError('email')">Please enter a valid email address</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="position">Position</label>
+    <p-select id="position" [options]="positionsList" formControlName="position" placeholder="Select a position"
+              [showClear]="true" [class.ng-invalid]="position.invalid && position.dirty"></p-select>
+    <div class="errors" *ngIf="position.invalid && position.dirty">
+      <div *ngIf="position.hasError('required')">Position should be chosen</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <p-datepicker id="startDate" placeholder="Select a start date" formControlName="startDate" dateFormat="mm/dd/yy"
+                  [showIcon]="true" [class.ng-invalid]="startDate.invalid && startDate.dirty"></p-datepicker>
+    <div class="errors" *ngIf="startDate.invalid && startDate.dirty">
+      <div *ngIf="startDate.hasError('required')">Date can't be empty</div>
+    </div>
+  </div>
+
+  <div class="form-group" formArrayName="skills">
+    <div class="add-skill">
+      <label>Skills</label>
+      <button type="button" pButton label="Add Skill" icon="pi pi-plus" class="p-button-primary" [disabled]="skills.length === masterSkillsList.length" (click)="addSkill()"></button>
+    </div>
+
+    <div *ngFor="let skillGroup of skills.controls; let i = index" [formGroupName]="i" class="skill">
+      <div class="skill-field">
+        <label [for]="'skill-' + i">skill</label>
+        <p-select
+          [id]="'skill-' + i"
+          [options]="getAvailableSkills(skillGroup.get('skill')?.value)"
+          formControlName="skill"
+          placeholder="Select a skill"
+          [class.ng-invalid]="skillGroup.get('skill')?.invalid && skillGroup.get('skill')?.dirty"
+        ></p-select>
+        <div class="errors" *ngIf="skillGroup.get('skill')?.invalid && skillGroup.get('skill')?.dirty">
+          <div *ngIf="skillGroup.get('skill')?.hasError('required')">Skill is required</div>
+        </div>
+      </div>
+
+      <div class="skill-field">
+        <label [for]="'years-' + i">Years</label>
+        <p-inputNumber
+          [id]="'years-' + i"
+          formControlName="yearExperience"
+          [min]="0"
+          [class.ng-invalid]="skillGroup.get('yearExperience')?.invalid && skillGroup.get('yearExperience')?.dirty"
+          [inputStyle]="{ width: '50px' }"
+        ></p-inputNumber>
+        <div class="errors" *ngIf="skillGroup.get('yearExperience')?.invalid && skillGroup.get('yearExperience')?.dirty">
+          <div *ngIf="skillGroup.get('yearExperience')?.hasError('required')">Years of experience is required</div>
+          <div *ngIf="skillGroup.get('yearExperience')?.hasError('min')">Years of experience must be 0 or more</div>
+        </div>
+      </div>
+
+      <button type="button" pButton class="p-button-danger p-button-sm remove-btn" (click)="removeSkill(i)">x</button>
+    </div>
+  </div>
+
+  <button type="submit" pButton label="Submit" [disabled]="employeeForm.invalid" class="p-button-success"></button>
+</form>
