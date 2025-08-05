@@ -143,4 +143,14 @@ mat-dialog-actions {
   .form-grid {
     grid-template-columns: 1fr;
   }
+
+  .skill-row {
+    grid-template-columns: 1fr;
+  }
+
+  .remove-btn {
+    place-self: center;
+    border-radius: 5px;
+    padding: 0 4px;
+  }
 }
