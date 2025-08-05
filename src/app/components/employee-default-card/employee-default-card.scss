@@ -1,0 +1,47 @@
+@use '../../../variables' as *;
+
+.employee-card {
+  border-radius: 8px;
+  box-shadow: $card-shadow;
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: $card-shadow-hover;
+  }
+
+  .p-card-header {
+    background-color: $primary-color;
+    color: #fff;
+    padding: $spacing-unit;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .p-card-body {
+    padding: $spacing-unit;
+  }
+
+  p {
+    margin: 0 0 0.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    bottom: 0;
+    gap: 0.5rem;
+    padding-top: $spacing-unit;
+    border-top: 1px solid $border-light;
+  }
+}

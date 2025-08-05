@@ -1,9 +1,9 @@
-import { Component, signal } from '@angular/core';
-import {EmployeeFormComponent} from './components/employee-form/employee-form.component';
+import { Component } from '@angular/core';
+import {EmployeeList} from './components/employee-list/employee-list';
 
 @Component({
   selector: 'app-root',
-  imports: [EmployeeFormComponent],
+  imports: [EmployeeList],
   templateUrl: './app.html',
   standalone: true,
   styleUrl: './app.scss'

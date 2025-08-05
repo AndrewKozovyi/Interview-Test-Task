@@ -1,0 +1,80 @@
+@use '../../../variables' as *;
+
+.employee-list-container {
+  padding: $spacing-unit;
+  font-family: $font-family;
+  color: $text-color;
+  background-color: $background-light;
+}
+
+.list-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-unit * 2;
+  gap: $spacing-unit;
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: $spacing-unit;
+
+    .p-inputtext {
+      width: 250px;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      border: 1px solid $border-light;
+    }
+  }
+
+  .sort-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.employee-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-unit;
+}
+
+.no-employees-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: $spacing-unit * 2;
+  font-size: 1.25rem;
+  color: #757575;
+}
+
+@media (max-width: 768px) {
+  .list-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+
+    .p-inputtext {
+      width: 100%;
+    }
+  }
+
+  .sort-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

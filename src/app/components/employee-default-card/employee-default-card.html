@@ -1,0 +1,14 @@
+<p-card [header]="employee.fullName" subheader="Position: {{ employee.position }}" class="employee-card">
+  <p><strong>Email:</strong> {{ employee.email }}</p>
+  <p><strong>Start Date:</strong> {{ employee.startDate | date }}</p>
+  <p><strong>Skills:</strong></p>
+  <ul>
+    <li *ngFor="let skill of employee.skills">
+      {{ skill.skill }} ({{ skill.yearExperience }} yrs)
+    </li>
+  </ul>
+  <div class="card-actions">
+    <button pButton icon="pi pi-pencil" label="Edit" class="p-button-sm" (click)="onEdit()"></button>
+    <button pButton icon="pi pi-trash" label="Delete" class="p-button-sm p-button-danger" (click)="onDelete()"></button>
+  </div>
+</p-card>

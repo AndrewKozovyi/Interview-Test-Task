@@ -1,0 +1,138 @@
+<mat-dialog-content>
+  <form [formGroup]="employeeForm" class="employee-form" (ngSubmit)="onSubmit()">
+    <h1 class="form-title">Add Employee</h1>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="full-name">Full Name</label>
+        <input
+          pInputText
+          id="full-name"
+          placeholder="Full name"
+          type="text"
+          formControlName="fullName"
+          [class.ng-invalid]="fullName.invalid && (fullName.dirty || !fullName.untouched)"
+        />
+        <div class="error-message" *ngIf="fullName.invalid && (fullName.dirty || !fullName.untouched)">
+          <div *ngIf="fullName.hasError('required')">Full name can't be empty.</div>
+          <div *ngIf="fullName.hasError('minlength')">
+            Full name must contain at least 3 characters.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          pInputText
+          id="email"
+          placeholder="Email"
+          type="text"
+          formControlName="email"
+          [class.ng-invalid]="email.invalid && (email.dirty || !email.untouched)"
+        />
+        <div class="error-message" *ngIf="email.invalid && (email.dirty || !email.untouched)">
+          <div *ngIf="email.hasError('required')">Email can't be empty.</div>
+          <div *ngIf="email.hasError('email')">Please enter a valid email address.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="position">Position</label>
+        <p-select
+          id="position"
+          [options]="positionsList"
+          formControlName="position"
+          placeholder="Select a position"
+          [showClear]="true"
+          [class.ng-invalid]="position.invalid && (position.dirty || !position.untouched)"
+          appendTo="body"
+        ></p-select>
+        <div class="error-message" *ngIf="position.invalid && (position.dirty || !position.untouched)">
+          <div *ngIf="position.hasError('required')">A position must be selected.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <p-datepicker
+          id="startDate"
+          placeholder="Select a start date"
+          formControlName="startDate"
+          dateFormat="mm/dd/yy"
+          [showIcon]="true"
+          [class.ng-invalid]="startDate.invalid && (startDate.dirty || !startDate.untouched)  "
+          appendTo="body"
+        ></p-datepicker>
+        <div class="error-message" *ngIf="startDate.invalid && (startDate.dirty || !startDate.untouched)">
+          <div *ngIf="startDate.hasError('required')">A start date must be selected.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skills-section" formArrayName="skills">
+      <div class="skills-header">
+        <label class="section-title">Skills</label>
+        <button
+          type="button"
+          pButton
+          label="Add Skill"
+          icon="pi pi-plus"
+          class="p-button-primary p-button-sm"
+          [disabled]="skills.length === masterSkillsList.length"
+          (click)="addSkill()"
+        ></button>
+      </div>
+
+      <div
+        class="skill-row"
+        *ngFor="let skillGroup of skills.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="skill-field">
+          <label [for]="'skill-' + i">Skill</label>
+          <p-select
+            [id]="'skill-' + i"
+            [options]="getAvailableSkills(skillGroup.get('skill')?.value)"
+            formControlName="skill"
+            placeholder="Select a skill"
+            appendTo="body"
+            [class.ng-invalid]="
+              skillGroup.get('skill')?.invalid && skillGroup.get('skill')?.dirty
+            "
+          ></p-select>
+        </div>
+
+        <div class="years-field">
+          <label [for]="'years-' + i">Years</label>
+          <p-inputNumber
+            [id]="'years-' + i"
+            formControlName="yearExperience"
+            [min]="0"
+            placeholder="Years"
+            [showButtons]="false"
+            [class.ng-invalid]="
+              skillGroup.get('yearExperience')?.invalid &&
+              skillGroup.get('yearExperience')?.dirty
+            "
+          ></p-inputNumber>
+        </div>
+
+        <button
+          type="button"
+          pButton
+          icon="pi pi-trash"
+          class="p-button-danger p-button-sm remove-btn"
+          (click)="removeSkill(i)"
+        ></button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button class="cancel-btn" (click)="onCancel()">Cancel</button>
+  <button mat-button class="submit-btn" type="submit" [disabled]="employeeForm.invalid" (click)="onSubmit()">
+    Submit
+  </button>
+</mat-dialog-actions>

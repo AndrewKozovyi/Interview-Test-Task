@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,7 +6,13 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { positions, skillsList } from '../../moks/form.mock'
+import { DialogModule } from 'primeng/dialog';
+import { positions, skillsList } from '../../moks/form.mock';
+import { EmployeeService } from '../../services/employee';
+import {MatDialogActions, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
+import {MatButton} from '@angular/material/button';
+import { icons } from '../../moks/icons.mock'
+// import trash from '../../../assets/trash.png'
 
 @Component({
   selector: 'app-employee-form',
@@ -17,15 +23,20 @@ import { positions, skillsList } from '../../moks/form.mock'
     SelectModule,
     DatePickerModule,
     ButtonModule,
-    InputNumberModule
+    InputNumberModule,
+    DialogModule,
+    MatDialogActions,
+    MatDialogContent,
+    MatButton
   ],
-  templateUrl: './employee-form.component.html',
+  templateUrl: './employee-form.html',
   standalone: true,
-  styleUrl: './employee-form.component.scss'
+  styleUrl: './employee-form.scss'
 })
-export class EmployeeFormComponent {
+export class EmployeeForm {
   positionsList = positions;
   masterSkillsList = skillsList;
+  trashIcon = icons.trash;
 
   employeeForm = new FormGroup({
     fullName: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -34,6 +45,8 @@ export class EmployeeFormComponent {
     startDate: new FormControl(null, [Validators.required]),
     skills: new FormArray([])
   });
+
+  constructor(private employeeService: EmployeeService, public dialogRef: MatDialogRef<EmployeeForm>) {}
 
   get fullName() {
     return this.employeeForm.get('fullName') as FormControl;
@@ -78,7 +91,18 @@ export class EmployeeFormComponent {
     if (currentSkillControlValue) {
       selectedSkills.splice(selectedSkills.indexOf(currentSkillControlValue), 1);
     }
-
     return this.masterSkillsList.filter(skill => !selectedSkills.includes(skill));
+  }
+
+  onSubmit() {
+    if (this.employeeForm.valid) {
+      const newEmployee: Employee = this.employeeForm.value as unknown as Employee;
+      this.employeeService.addEmployee(newEmployee);
+      this.dialogRef.close();
+    }
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
   }
 }

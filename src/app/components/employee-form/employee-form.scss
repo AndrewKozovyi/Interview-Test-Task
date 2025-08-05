@@ -1,0 +1,144 @@
+@use '../../../variables' as *;
+
+.employee-form {
+  padding: 1.5rem;
+  font-family: $font-family;
+  color: $text-color;
+
+  .form-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: $primary-dark;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: $label-color;
+  }
+}
+
+.p-inputtext,
+.p-datepicker,
+.p-select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.2rem $focus-shadow;
+  }
+
+  &.ng-invalid.ng-dirty {
+    border-color: $error-color !important;
+  }
+}
+
+.error-message {
+  color: $error-color;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.skills-section {
+  border-top: 1px solid $border-light;
+  padding-top: 1.5rem;
+
+  .skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $primary-dark;
+    }
+  }
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 1fr 6rem 2.5rem;
+  gap: 1rem;
+  align-items: flex-end; // Align all items to the bottom
+  margin-bottom: 1rem;
+
+  // Style for the input fields within the grid
+  .skill-field,
+  .years-field {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #757575;
+      margin-bottom: 0.25rem;
+    }
+  }
+}
+
+.remove-btn {
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 1rem;
+  border-radius: 50%;
+  background-color: $warning-color !important;
+  border-color: $warning-color !important;
+
+  &:hover {
+    background-color: $warning-dark !important;
+  }
+}
+
+mat-dialog-actions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid $border-light;
+  background-color: $background-light;
+
+  .cancel-btn {
+    color: #757575;
+  }
+
+  .submit-btn {
+    background-color: $primary-color;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+
+    &:disabled {
+      background-color: #bdbdbd;
+      color: #fff;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

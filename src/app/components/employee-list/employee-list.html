@@ -1,0 +1,50 @@
+<div class="employee-list-container">
+
+  <div class="list-controls">
+    <div class="search-bar">
+      <input pInputText type="text" [formControl]="searchControl" placeholder="Search by name or email" />
+
+      <div class="sort-buttons">
+        <span>Sort by:</span>
+        <button pButton label="Name A-Z" (click)="setSortOrder('name-asc')"></button>
+        <button pButton label="Name Z-A" (click)="setSortOrder('name-desc')"></button>
+        <button pButton label="Start Date" (click)="setSortOrder('startDate')"></button>
+        <button pButton label="Skills" (click)="setSortOrder('numSkills')"></button>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button pButton [icon]="viewMode === 'card' ? 'pi pi-list' : 'pi pi-table'" (click)="toggleViewMode()"></button>
+
+      <button pButton label="Add New Employee" icon="pi pi-plus" (click)="openEmployeeForm()"></button>
+    </div>
+  </div>
+
+  <div class="employee-cards" *ngIf="displayEmployees$ | async as employees" [ngClass]="{'list-view': viewMode === 'list'}">
+    <ng-container *ngIf="employees.length > 0; else noEmployees">
+      <ng-container *ngFor="let employee of employees">
+        <ng-container [ngSwitch]="viewMode">
+          <app-employee-default-card
+            *ngSwitchCase="'card'"
+            [employee]="employee"
+            (delete)="deleteEmployee($event)"
+            (edit)="openEmployeeForm($event)">
+          </app-employee-default-card>
+
+          <app-employee-list-card
+            *ngSwitchCase="'list'"
+            [employee]="employee"
+            (delete)="deleteEmployee($event)"
+            (edit)="openEmployeeForm($event)">
+          </app-employee-list-card>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #noEmployees>
+      <div class="no-employees-message">
+        <p>No employees found.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
