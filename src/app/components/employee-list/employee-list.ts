@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { EmployeeForm } from '../employee-form/employee-form';
 import {EmployeeDefaultCard} from '../employee-default-card/employee-default-card';
 import {EmployeeListCard} from '../employee-list-card/employee-list-card';
+import { Employee } from '../../models/employee';
 
 @Component({
   selector: 'app-employee-list',
@@ -85,10 +86,10 @@ export class EmployeeList implements OnInit {
     this.sortOrder.next(order);
   }
 
-  openEmployeeForm(employeeId?: number): void {
+  openEmployeeForm(employee?: Employee): void {
     this.dialog.open(EmployeeForm, {
       width: '500px',
-      data: { employeeId: employeeId }
+      data: employee
     });
   }
 }

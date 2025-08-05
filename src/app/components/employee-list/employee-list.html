@@ -1,5 +1,4 @@
 <div class="employee-list-container">
-
   <div class="list-controls">
     <div class="search-bar">
       <input pInputText type="text" [formControl]="searchControl" placeholder="Search by name or email" />
@@ -28,14 +27,14 @@
             *ngSwitchCase="'card'"
             [employee]="employee"
             (delete)="deleteEmployee($event)"
-            (edit)="openEmployeeForm($event)">
+            (edit)="openEmployeeForm(employee)">
           </app-employee-default-card>
 
           <app-employee-list-card
             *ngSwitchCase="'list'"
             [employee]="employee"
             (delete)="deleteEmployee($event)"
-            (edit)="openEmployeeForm($event)">
+            (edit)="openEmployeeForm(employee)">
           </app-employee-list-card>
         </ng-container>
       </ng-container>

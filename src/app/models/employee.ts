@@ -1,4 +1,6 @@
-interface Employee {
+import { Skill } from "./skill";
+
+export interface Employee {
   id: number;
   fullName: string;
   email: string;

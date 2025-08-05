@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,10 +9,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { positions, skillsList } from '../../moks/form.mock';
 import { EmployeeService } from '../../services/employee';
-import {MatDialogActions, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
-import { icons } from '../../moks/icons.mock'
-// import trash from '../../../assets/trash.png'
+import {Skill, SkillFormGroup} from '../../models/skill';
+import { Employee } from '../../models/employee';
 
 @Component({
   selector: 'app-employee-form',
@@ -33,20 +33,47 @@ import { icons } from '../../moks/icons.mock'
   standalone: true,
   styleUrl: './employee-form.scss'
 })
-export class EmployeeForm {
+export class EmployeeForm implements OnInit {
   positionsList = positions;
   masterSkillsList = skillsList;
-  trashIcon = icons.trash;
 
   employeeForm = new FormGroup({
-    fullName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    position: new FormControl(null, [Validators.required]),
-    startDate: new FormControl(null, [Validators.required]),
-    skills: new FormArray([])
+    id: new FormControl<number | null>(null),
+    fullName: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    position: new FormControl<string | null>(null, [Validators.required]),
+    startDate: new FormControl<Date | null>(null, [Validators.required]),
+    skills: new FormArray<FormGroup<SkillFormGroup>>([])
   });
 
-  constructor(private employeeService: EmployeeService, public dialogRef: MatDialogRef<EmployeeForm>) {}
+  constructor(
+    private employeeService: EmployeeService,
+    public dialogRef: MatDialogRef<EmployeeForm>,
+    @Inject(MAT_DIALOG_DATA) private data: Employee
+  ) {}
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.initializeForm(this.data);
+    }
+  }
+
+  private initializeForm(employee: Employee): void {
+    this.employeeForm.patchValue({
+      id: employee.id,
+      fullName: employee.fullName,
+      email: employee.email,
+      position: employee.position,
+      startDate: new Date(employee.startDate)
+    });
+
+    this.skills.clear();
+    employee.skills.forEach((skill: Skill) => {
+      const skillGroup = this.newSkill();
+      skillGroup.patchValue(skill);
+      this.skills.push(skillGroup);
+    });
+  }
 
   get fullName() {
     return this.employeeForm.get('fullName') as FormControl;
@@ -96,8 +123,23 @@ export class EmployeeForm {
 
   onSubmit() {
     if (this.employeeForm.valid) {
-      const newEmployee: Employee = this.employeeForm.value as unknown as Employee;
-      this.employeeService.addEmployee(newEmployee);
+      const formValue = this.employeeForm.getRawValue();
+
+      const employeeData: Employee = {
+        id: formValue.id as number,
+        fullName: formValue.fullName as string,
+        email: formValue.email as string,
+        position: formValue.position as string,
+        startDate: formValue.startDate as Date,
+        skills: formValue.skills as Skill[]
+      };
+
+      if (employeeData.id) {
+        this.employeeService.updateEmployee(employeeData);
+      } else {
+        this.employeeService.addEmployee(employeeData);
+      }
+
       this.dialogRef.close();
     }
   }
