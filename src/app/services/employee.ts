@@ -11,6 +11,7 @@ export class EmployeeService {
   private nextId = 1;
 
   constructor() {
+    this.loadFromLocalStorage();
   }
 
   getEmployees(): Employee[] {
@@ -20,7 +21,9 @@ export class EmployeeService {
   addEmployee(employee: Employee) {
     const currentEmployees = this.getEmployees();
     employee.id = this.nextId++;
-    this.employeesSubject.next([...currentEmployees, employee]);
+    const newEmployeeList = [...currentEmployees, employee];
+    this.employeesSubject.next(newEmployeeList);
+    this.saveToLocalStorage(newEmployeeList);
   }
 
   updateEmployee(updatedEmployee: Employee) {
@@ -28,7 +31,9 @@ export class EmployeeService {
     const index = currentEmployees.findIndex(e => e.id === updatedEmployee.id);
     if (index !== -1) {
       currentEmployees[index] = updatedEmployee;
-      this.employeesSubject.next([...currentEmployees]);
+      const updatedList = [...currentEmployees];
+      this.employeesSubject.next(updatedList);
+      this.saveToLocalStorage(updatedList);
     }
   }
 
@@ -36,5 +41,20 @@ export class EmployeeService {
     const currentEmployees = this.getEmployees();
     const filteredEmployees = currentEmployees.filter(e => e.id !== id);
     this.employeesSubject.next(filteredEmployees);
+    this.saveToLocalStorage(filteredEmployees);
+  }
+
+  private saveToLocalStorage(employees: Employee[]): void {
+    localStorage.setItem('EmployeeList', JSON.stringify(employees));
+  }
+
+  private loadFromLocalStorage(): void {
+    const storedEmployees = localStorage.getItem('EmployeeList');
+    if (storedEmployees) {
+      const employees = JSON.parse(storedEmployees);
+      this.employeesSubject.next(employees);
+      const maxId = employees.reduce((max: number, e: Employee) => (e.id > max ? e.id : max), 0);
+      this.nextId = maxId + 1;
+    }
   }
 }
