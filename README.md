@@ -16,7 +16,7 @@ It is the Angular application for managing employee data. It features a responsi
 * **Styling:** SCSS, which includes a variable file for consistent styling.
 * **Data Management:** RxJS for asynchronous data handling and filtering.
 * **Language:** TypeScript (version 5.8.2).
-* **Tools:** Angular CLI (version 20.1.4).
+* **Tools:** Angular CLI (version 20.1.4), Node.js (version 22.18.0).
 
 ## Notes about the Implementation
 
@@ -26,6 +26,8 @@ It is the Angular application for managing employee data. It features a responsi
 * **SCSS Styling:** The styles are written in SCSS and use variables to ensure a consistent look and feel across the application. The use of media guarantee responsive design.
 * **PrimeNG Integration:** PrimeNG components are used to quickly build a feature-rich UI while following the established brand identity.
 * **Data Persistence:** The employee list is automatically persisted to the browser's `localStorage` via the `EmployeeService`. This ensures that data is not lost when the user reloads the page or closes the browser.
+* **Validation Testing:** Unit tests are included to validate the form.
+
 
 ## Setup Instructions
 
@@ -46,6 +48,14 @@ To get this project running on your local machine, follow these steps:
 
     Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
 ## Building
 
 To build the project for production, run:
@@ -55,11 +65,3 @@ ng build
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
