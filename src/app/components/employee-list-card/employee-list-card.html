@@ -1,14 +1,16 @@
-<div class="list-card">
-  <div class="list-card-main">
-    <span>{{ employee.fullName }}</span>
-    <small>{{ employee.position }}</small>
+@if (employee) {
+  <div class="list-card">
+    <div class="list-card-main">
+      <span>{{ employee.fullName }}</span>
+      <small>{{ employee.position }}</small>
+    </div>
+    <div class="list-card-details">
+      <strong>Email:</strong>
+      <p>{{ employee.email }}</p>
+    </div>
+    <div class="list-card-actions">
+      <button pButton icon="pi pi-pencil" class="p-button-sm" (click)="onEdit()"></button>
+      <button pButton icon="pi pi-trash" class="p-button-sm p-button-danger" (click)="onDelete()"></button>
+    </div>
   </div>
-  <div class="list-card-details">
-    <strong>Email:</strong>
-    <p>{{ employee.email }}</p>
-  </div>
-  <div class="list-card-actions">
-    <button pButton icon="pi pi-pencil" class="p-button-sm" (click)="onEdit()"></button>
-    <button pButton icon="pi pi-trash" class="p-button-sm p-button-danger" (click)="onDelete()"></button>
-  </div>
-</div>
+}
