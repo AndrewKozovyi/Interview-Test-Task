@@ -23,6 +23,7 @@ It is the Angular application for managing employee data. It features a responsi
 * **Reactive Forms:** The application uses Angular's reactive forms for type-safe and scalable form handling, including nested data for employee skills.
 * **Modern Control Flow:** Instead of structural directives like `*ngIf` and `*ngFor`, the project uses the new `@if`, `@for`, and `@switch` syntax.
 * **Component Communication:** The components use a standard `@Input` and `@Output` pattern to manage data flow between parent and child components.
+* **RxJS for Data Handling:** The application uses RxJS to handle asynchronous data operations, including managing data streams and implementing filtering logic on the employee list.
 * **SCSS Styling:** The styles are written in SCSS and use variables to ensure a consistent look and feel across the application. The use of media guarantee responsive design.
 * **PrimeNG Integration:** PrimeNG components are used to quickly build a feature-rich UI while following the established brand identity.
 * **Data Persistence:** The employee list is automatically persisted to the browser's `localStorage` via the `EmployeeService`. This ensures that data is not lost when the user reloads the page or closes the browser.
