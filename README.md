@@ -1,40 +1,59 @@
 # EmployeeApp
+The project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
+It is the Angular application for managing employee data. It features a responsive user interface with dynamic data fetching, filtering, and multiple ways to view employee information.
 
-## Development server
+## Key Features
 
-To start a local development server, run:
+* **Employee List Management:** A searchable and sortable list of employees that can be viewed in either a card or a list format.
+* **Reactive Employee Forms:** A reactive form for adding and editing employee data, including managing skills.
+* **PrimeNG UI Components:** The user interface is built with PrimeNG components for better user experience.
 
-```bash
-ng serve
-```
+## Technologies Used
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+* **Front-end Framework:** Angular (version 20.1.0)
+* **UI Components:** PrimeNG (version 20.0.1), PrimeUIX themes, and PrimeIcons
+* **Styling:** SCSS, which includes a variable file for consistent styling.
+* **Data Management:** RxJS for asynchronous data handling and filtering.
+* **Language:** TypeScript (version 5.8.2).
+* **Tools:** Angular CLI (version 20.1.4).
 
-## Code scaffolding
+## Notes about the Implementation
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+* **Reactive Forms:** The application uses Angular's reactive forms for type-safe and scalable form handling, including nested data for employee skills.
+* **Modern Control Flow:** Instead of structural directives like `*ngIf` and `*ngFor`, the project uses the new `@if`, `@for`, and `@switch` syntax.
+* **Component Communication:** The components use a standard `@Input` and `@Output` pattern to manage data flow between parent and child components.
+* **SCSS Styling:** The styles are written in SCSS and use variables to ensure a consistent look and feel across the application. The use of media guarantee responsive design.
+* **PrimeNG Integration:** PrimeNG components are used to quickly build a feature-rich UI while following the established brand identity.
 
-```bash
-ng generate component component-name
-```
+## Setup Instructions
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+To get this project running on your local machine, follow these steps:
 
-```bash
-ng generate --help
-```
+1.  **Clone the repository.**
+2.  **Install dependencies:** Navigate to the project directory and run the following command to install all required packages:
+
+    ```bash
+    npm install
+    ```
+
+3.  **Start the development server:** Run the following command to start a local development server:
+
+    ```bash
+    ng serve
+    ```
+
+    Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
 ## Building
 
-To build the project run:
+To build the project for production, run:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This will compile your project and store the build artifacts in the `dist/` directory.
 
 ## Running unit tests
 
@@ -43,17 +62,3 @@ To execute unit tests with the [Karma](https://karma-runner.github.io) test runn
 ```bash
 ng test
 ```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
