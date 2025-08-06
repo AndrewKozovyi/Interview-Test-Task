@@ -10,6 +10,7 @@ import { EmployeeForm } from '../employee-form/employee-form';
 import {EmployeeDefaultCard} from '../employee-default-card/employee-default-card';
 import {EmployeeListCard} from '../employee-list-card/employee-list-card';
 import { Employee } from '../../models/employee';
+import { EmployeeSortOrder } from '../../moks/form.mock'
 
 @Component({
   selector: 'app-employee-list',
@@ -28,44 +29,33 @@ import { Employee } from '../../models/employee';
   styleUrl: './employee-list.scss'
 })
 export class EmployeeList implements OnInit {
-  employees$!: Observable<any[]>;
-  displayEmployees$!: Observable<any[]>;
+  displayEmployees$!: Observable<Employee[]>;
+  sortTypes = EmployeeSortOrder;
 
   searchControl = new FormControl('');
-  sortOrder = new BehaviorSubject<'name-asc' | 'name-desc' | 'startDate' | 'numSkills' | null>(null);
+  sortOrder = new BehaviorSubject<EmployeeSortOrder | null>(null);
 
-  viewMode: 'card' | 'list' = 'card'; // State variable for view mode
+  viewMode: 'card' | 'list' = 'card';
 
   constructor(private employeeService: EmployeeService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.employees$ = this.employeeService.employees$;
-
     this.displayEmployees$ = combineLatest([
-      this.employees$,
+      this.employeeService.employees$,
       this.searchControl.valueChanges.pipe(
-        startWith(''),
+        startWith(this.searchControl.value),
         debounceTime(300),
         distinctUntilChanged()
       ),
       this.sortOrder.asObservable()
     ]).pipe(
       map(([employees, searchTerm, sortOrder]) => {
-        const safeSearchTerm = searchTerm || '';
+        const term = searchTerm || '';
         let filteredEmployees = employees.filter(employee =>
-          employee.fullName.toLowerCase().includes(safeSearchTerm.toLowerCase()) ||
-          employee.email.toLowerCase().includes(safeSearchTerm.toLowerCase())
+          (employee.fullName?.toLowerCase() || '').includes(term.toLowerCase()) ||
+          (employee.email?.toLowerCase() || '').includes(term.toLowerCase())
         );
-        if (sortOrder) {
-          filteredEmployees.sort((a, b) => {
-            if (sortOrder === 'name-asc') return a.fullName.localeCompare(b.fullName);
-            if (sortOrder === 'name-desc') return b.fullName.localeCompare(a.fullName);
-            if (sortOrder === 'startDate') return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-            if (sortOrder === 'numSkills') return a.skills.length - b.skills.length;
-            return 0;
-          });
-        }
-        return filteredEmployees;
+        return this.sortEmployees(filteredEmployees, sortOrder);
       })
     );
   }
@@ -78,7 +68,7 @@ export class EmployeeList implements OnInit {
     this.employeeService.deleteEmployee(id);
   }
 
-  setSortOrder(order: 'name-asc' | 'name-desc' | 'startDate' | 'numSkills') {
+  setSortOrder(order: EmployeeSortOrder) {
     this.sortOrder.next(order);
   }
 
@@ -86,6 +76,25 @@ export class EmployeeList implements OnInit {
     this.dialog.open(EmployeeForm, {
       width: '500px',
       data: employee
+    });
+  }
+
+  private sortEmployees(employees: Employee[], order: EmployeeSortOrder | null): Employee[] {
+    if (!order) return employees;
+
+    return employees.sort((a, b) => {
+      switch (order) {
+        case EmployeeSortOrder.NameAsc:
+          return (a.fullName || '').localeCompare(b.fullName || '');
+        case EmployeeSortOrder.NameDesc:
+          return (b.fullName || '').localeCompare(a.fullName || '');
+        case EmployeeSortOrder.StartDate:
+          return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+        case EmployeeSortOrder.NumSkills:
+          return (a.skills?.length || 0) - (b.skills?.length || 0);
+        default:
+          return 0;
+      }
     });
   }
 }

@@ -6,10 +6,10 @@
       <div class="sort">
         <span>Sort by:</span>
         <div class="sort-buttons">
-          <button pButton label="Name A-Z" (click)="setSortOrder('name-asc')"></button>
-          <button pButton label="Name Z-A" (click)="setSortOrder('name-desc')"></button>
-          <button pButton label="Start Date" (click)="setSortOrder('startDate')"></button>
-          <button pButton label="Skills" (click)="setSortOrder('numSkills')"></button>
+          <button pButton label="Name A-Z" (click)="setSortOrder(sortTypes.NameAsc)"></button>
+          <button pButton label="Name Z-A" (click)="setSortOrder(sortTypes.NameDesc)"></button>
+          <button pButton label="Start Date" (click)="setSortOrder(sortTypes.StartDate)"></button>
+          <button pButton label="Skills" (click)="setSortOrder(sortTypes.NumSkills)"></button>
         </div>
       </div>
     </div>
