@@ -25,6 +25,7 @@ It is the Angular application for managing employee data. It features a responsi
 * **Component Communication:** The components use a standard `@Input` and `@Output` pattern to manage data flow between parent and child components.
 * **SCSS Styling:** The styles are written in SCSS and use variables to ensure a consistent look and feel across the application. The use of media guarantee responsive design.
 * **PrimeNG Integration:** PrimeNG components are used to quickly build a feature-rich UI while following the established brand identity.
+* **Data Persistence:** The employee list is automatically persisted to the browser's `localStorage` via the `EmployeeService`. This ensures that data is not lost when the user reloads the page or closes the browser.
 
 ## Setup Instructions
 
